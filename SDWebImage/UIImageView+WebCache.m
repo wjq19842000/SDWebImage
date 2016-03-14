@@ -9,6 +9,9 @@
 #import "UIImageView+WebCache.h"
 #import "objc/runtime.h"
 #import "UIView+WebCacheOperation.h"
+// WJQ start
+#import "UIImage+DSRoundImage.h"
+// WJQ end
 
 static char imageURLKey;
 static char TAG_ACTIVITY_INDICATOR;
@@ -16,6 +19,37 @@ static char TAG_ACTIVITY_STYLE;
 static char TAG_ACTIVITY_SHOW;
 
 @implementation UIImageView (WebCache)
+// WJQ start
+- (void)setIsRound:(BOOL)isRound {
+
+    [[SDWebImageManager sharedManager] setCacheKeyFilter:^(NSURL *url) {
+
+        //!!!: 绘制圆角
+        if (isRound) {
+
+            NSString *urlStr = [NSString stringWithFormat:@"%@%@%@",DSRoundImagePreString,DSRoundImagePreString,[url absoluteString]];
+            return urlStr;
+        }else{
+            return [url absoluteString];
+        }
+    }];
+}
+
+- (void)setIsRound:(BOOL)isRound withSize:(CGSize)size {
+    
+    [[SDWebImageManager sharedManager] setCacheKeyFilter:^(NSURL *url) {
+        
+        //!!!: 绘制圆角
+        if (isRound) {
+
+            NSString *urlStr = [NSString stringWithFormat:@"%@%fx%f%@%@",DSRoundImagePreString,size.width,size.height,DSRoundImagePreString,[url absoluteString]];
+            return urlStr;
+        }else{
+            return [url absoluteString];
+        }
+    }];
+}
+// WJQ end
 
 - (void)sd_setImageWithURL:(NSURL *)url {
     [self sd_setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:nil];

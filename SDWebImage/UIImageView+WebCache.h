@@ -43,7 +43,10 @@
  * @endcode
  */
 @interface UIImageView (WebCache)
-
+// WJQ start
+- (void)setIsRound:(BOOL)isRound;
+- (void)setIsRound:(BOOL)isRound withSize:(CGSize)size;
+// WJQ end
 /**
  * Get the current image URL.
  *
