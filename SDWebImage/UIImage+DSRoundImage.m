@@ -46,7 +46,7 @@ static void addRoundedRectToPath(CGContextRef context, CGRect rect, float ovalWi
         NSArray *preArray = [key componentsSeparatedByString:[NSString stringWithFormat:@"%@",DSRoundImagePreString]];
         CGSize imageSize;
         
-        if ([preArray count]>2 && ![NSString stringIsEmpty:[preArray objectAtIndex:1] shouldCleanWhiteSpace:YES]) {  //key里由传宽高信息
+        if ([preArray count] > 2 && ![[preArray[1] isEqualToString:@""]]) {  //key里由传宽高信息
             NSString *sizeStr = [preArray objectAtIndex:1];
             NSArray *sizeArray = [sizeStr componentsSeparatedByString:@"x"];
             float width = [[sizeArray objectAtIndex:0] floatValue];
