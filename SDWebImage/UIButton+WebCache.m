@@ -9,30 +9,10 @@
 #import "UIButton+WebCache.h"
 #import "objc/runtime.h"
 #import "UIView+WebCacheOperation.h"
-// WJQ start
-#import "UIImage+DSRoundImage.h"
-// WJQ end
 
 static char imageURLStorageKey;
 
 @implementation UIButton (WebCache)
-
-// WJQ start
-- (void)setIsRound:(BOOL)isRound withSize:(CGSize)size{
-    
-    [[SDWebImageManager sharedManager] setCacheKeyFilter:^(NSURL *url) {
-        
-        //!!!: 绘制圆角
-        if (isRound) {
-            
-            NSString *urlStr = [NSString stringWithFormat:@"%@%fx%f%@%@",DSRoundImagePreString,size.width,size.height,DSRoundImagePreString,[url absoluteString]];
-            return urlStr;
-        }else{
-            return [url absoluteString];
-        }
-    }];
-}
-// WJQ end
 
 - (NSURL *)sd_currentImageURL {
     NSURL *url = self.imageURLStorage[@(self.state)];

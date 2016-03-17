@@ -10,9 +10,6 @@
 #import "SDWebImageDecoder.h"
 #import "UIImage+MultiFormat.h"
 #import <CommonCrypto/CommonDigest.h>
-// WJQ start
-#import "UIImage+DSRoundImage.h"
-// WJQ end
 
 // See https://github.com/rs/SDWebImage/pull/1141 for discussion
 @interface AutoPurgeCache : NSCache
@@ -83,14 +80,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 }
 
 - (id)init {
-    // WJQ start
-    NSString *bundleIdentifierKey = (__bridge NSString *)kCFBundleIdentifierKey;
-    NSString *bundleIdentifier = NSBundle.mainBundle.infoDictionary[bundleIdentifierKey];
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *diskCacheDirectory = [NSString stringWithFormat:@"%@/%@/%@", paths[0], bundleIdentifier, @"CacheImages"];
-    return [self initWithNamespace:bundleIdentifier diskCacheDirectory:diskCacheDirectory];
-    // WJQ end
+    return [self initWithNamespace:@"default"];
 }
 
 - (id)initWithNamespace:(NSString *)ns {
@@ -100,9 +90,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 
 - (id)initWithNamespace:(NSString *)ns diskCacheDirectory:(NSString *)directory {
     if ((self = [super init])) {
-        // WJQ start
-        NSString *fullNamespace = ns;
-        // WJQ end
+        NSString *fullNamespace = [@"com.hackemist.SDWebImageCache." stringByAppendingString:ns];
 
         // initialise PNG signature data
         kPNGSignatureData = [NSData dataWithBytes:kPNGSignatureBytes length:8];
@@ -119,9 +107,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 
         // Init the disk cache
         if (directory != nil) {
-            // WJQ start
-            _diskCachePath = directory;
-            // WJQ end
+            _diskCachePath = [directory stringByAppendingPathComponent:fullNamespace];
         } else {
             NSString *path = [self makeDiskCachePath:ns];
             _diskCachePath = path;
@@ -195,12 +181,10 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
     }
     unsigned char r[CC_MD5_DIGEST_LENGTH];
     CC_MD5(str, (CC_LONG)strlen(str), r);
-    // WJQ start
-    // 删除后缀名
-    NSString *filename = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+    NSString *filename = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%@",
                           r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10],
-                          r[11], r[12], r[13], r[14], r[15]];
-    // WJQ end
+                          r[11], r[12], r[13], r[14], r[15], [[key pathExtension] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@".%@", [key pathExtension]]];
+
     return filename;
 }
 
