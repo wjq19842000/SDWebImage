@@ -85,7 +85,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
     NSString *bundleIdentifier = NSBundle.mainBundle.infoDictionary[bundleIdentifierKey];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *diskCacheDirectory = [NSString stringWithFormat:@"%@/%@/%@", paths[0], bundleIdentifier, @"CacheImages"];
+    NSString *diskCacheDirectory = [NSString stringWithFormat:@"%@/%@/%@", paths[0], bundleIdentifier, @"CacheFiles/SD"];
     return [self initWithNamespace:bundleIdentifier diskCacheDirectory:diskCacheDirectory];
     // WJQ end
 }
