@@ -11,6 +11,10 @@
 #import "SDWebImageDownloader.h"
 #import "SDImageCache.h"
 
+// WJQ Start
+#define kSDWebImageRoundCornerFlag @"SDWebImageRoundCornerFlag"
+// WJQ End
+
 typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
     /**
      * By default, when a URL fail to be downloaded, the URL is blacklisted so the library won't keep trying.

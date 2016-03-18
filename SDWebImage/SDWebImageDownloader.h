@@ -72,6 +72,10 @@ typedef void(^SDWebImageDownloaderCompletedBlock)(UIImage *image, NSData *data, 
 
 typedef NSDictionary *(^SDWebImageDownloaderHeadersFilterBlock)(NSURL *url, NSDictionary *headers);
 
+// WJQ start
+typedef NSURL *(^SDWebImageDownloaderURLBlock)(NSURL *url);
+// WJQ end
+
 /**
  * Asynchronous downloader dedicated and optimized for image loading.
  */
@@ -131,6 +135,10 @@ typedef NSDictionary *(^SDWebImageDownloaderHeadersFilterBlock)(NSURL *url, NSDi
  * NSDictionary will be used as headers in corresponding HTTP request.
  */
 @property (nonatomic, copy) SDWebImageDownloaderHeadersFilterBlock headersFilter;
+
+// WJQ start
+@property (nonatomic, copy) SDWebImageDownloaderURLBlock urlFilter;
+// WJQ end
 
 /**
  * Set a value for a HTTP header to be appended to each download HTTP request.

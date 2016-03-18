@@ -122,9 +122,21 @@ static NSString *const kCompletedCallbackKey = @"completed";
             timeoutInterval = 15.0;
         }
 
+		// WJQ start
+        NSURL *downloadURL;
+        if (wself.urlFilter) {
+            downloadURL = wself.urlFilter(url);
+        }
+        else {
+            downloadURL = url;
+        }
+		// WJQ end
+        
         // In order to prevent from potential duplicate caching (NSURLCache + SDImageCache) we disable the cache for image requests if told otherwise
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:(options & SDWebImageDownloaderUseNSURLCache ? NSURLRequestUseProtocolCachePolicy : NSURLRequestReloadIgnoringLocalCacheData) timeoutInterval:timeoutInterval];
-        request.HTTPShouldHandleCookies = (options & SDWebImageDownloaderHandleCookies);
+		// WJQ start
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:downloadURL cachePolicy:(options & SDWebImageDownloaderUseNSURLCache ? NSURLRequestUseProtocolCachePolicy : NSURLRequestReloadIgnoringLocalCacheData) timeoutInterval:timeoutInterval];
+        // WJQ end
+		request.HTTPShouldHandleCookies = (options & SDWebImageDownloaderHandleCookies);
         request.HTTPShouldUsePipelining = YES;
         if (wself.headersFilter) {
             request.allHTTPHeaderFields = wself.headersFilter(url, [wself.HTTPHeaders copy]);
