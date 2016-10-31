@@ -11,9 +11,9 @@
 #import "SDWebImageDownloader.h"
 #import "SDImageCache.h"
 
-// WJQ Start
+// WJQ start
 #define kSDWebImageRoundCornerFlag @"SDWebImageRoundCornerFlag"
-// WJQ End
+// WJQ end
 
 typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
     /**
